@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/automation.css}" type="text/css"/>
+    <meta charset="UTF-8">
+    <title>mllp sender </title>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let sendPort = /*[[${limit}]]*/ 'sendPort';
+        let sendHost = /*[[${limit}]]*/ 'sendHost';
+        let hl7Message = /*[[${limit}]]*/ 'hl7Message';
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+
+<h1> mllp sender</h1>
+
+<table>
+    <tr>
+        <td>
+            Host
+        </td>
+        <td><input id="sendHost" name="sendHost" th:value="${sendHost}" type="text" onchange="buildForm()"></td>
+    </tr>
+    <tr>
+        <td>
+            Port
+        </td>
+        <td>
+            <input id="sendPort" name="sendPort" th:value="${sendPort}" type="text" onchange="buildForm()" >
+        </td>
+
+
+    </tr>
+</table>
+
+
+
+<table>
+    <tr>
+        <td>
+            <button class="startButton" id="Submit" name="startButton" onclick="buildForm(this)" type="button">Connect</button>
+        </td>
+        <td>
+            <button class="stopButton" id="Stop" name="stopButton" onclick="disconnectForm(this)" type="button">Disconnect</button>
+        </td>
+        <td>
+            <div id="test_result" > waiting for status ............................................ </div>
+        </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
+        <td>
+            <button class="startButton" id="Send" name="sendButton" onclick="sendForm(this)" type="button">Send</button>
+        </td>
+
+        <td>
+            <textarea  id="hl7Message" name="hl7Message" rows="10" cols="100" th:text="${hl7Message}"> > </textarea>
+        </td>
+
+    </tr>
+    <tr>
+        <td>
+           Response
+        </td>
+
+        <td>
+            <textarea  id="hl7Response" name="hl7Response" rows="3" cols="100" th:text="${hl7Response}" readonly > > </textarea>
+        </td>
+
+    </tr>
+</table>
+
+
+
+
+
+<!-- ----------------------- JAVASCRIPT----------------------- -->
+
+
+<!-- JQuery from Google CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+
+    let timerId;
+    window.onload = startRefreshTimer;
+
+
+    function buildForm() {
+        clearInterval(timerId);  // stop the update timer
+        let controlForm = document.createElement("FORM");
+        controlForm.setAttribute("id", "controlForm");
+        controlForm.setAttribute("method", "post");
+        controlForm.setAttribute("style", "display: none");
+        document.body.appendChild(controlForm);
+
+        // Port
+        document.getElementById("controlForm").appendChild(document.getElementById("sendPort"));
+        // Host
+        document.getElementById("controlForm").appendChild(document.getElementById("sendHost"));
+
+        let btn = document.createElement("button");
+        btn.type = "submit";
+        btn.value = "connect";
+        btn.name = "submit";
+        document.getElementById("controlForm").appendChild(btn);
+
+        btn.click();
+    }
+
+    function disconnectForm() {
+        clearInterval(timerId);  // stop the update timer
+        let controlForm = document.createElement("FORM");
+        controlForm.setAttribute("id", "controlForm");
+        controlForm.setAttribute("method", "post");
+        controlForm.setAttribute("style", "display: none");
+        document.body.appendChild(controlForm);
+
+        let btn = document.createElement("button");
+        btn.type = "submit";
+        btn.value = "disconnect";
+        btn.name = "submit";
+        document.getElementById("controlForm").appendChild(btn);
+
+        btn.click();
+    }
+
+    function sendForm() {
+        clearInterval(timerId);  // stop the update timer
+        let controlForm = document.createElement("FORM");
+        controlForm.setAttribute("id", "controlForm");
+        controlForm.setAttribute("method", "post");
+        controlForm.setAttribute("style", "display: none");
+        document.body.appendChild(controlForm);
+
+        // Port
+        document.getElementById("controlForm").appendChild(document.getElementById("sendPort"));
+        // Host
+        document.getElementById("controlForm").appendChild(document.getElementById("sendHost"));
+        // HL7 Message to send
+        document.getElementById("controlForm").appendChild(document.getElementById("hl7Message"));
+
+        let btn = document.createElement("button");
+        btn.type = "submit";
+        btn.value = "send";
+        btn.name = "submit";
+        document.getElementById("controlForm").appendChild(btn);
+
+        btn.click();
+    }
+
+    /**
+     * Refresh Timer to update the connection state.
+     */
+
+    function startRefreshTimer() {
+
+        setTimeout(function () {
+            updateMessage();
+            startRefreshTimer();
+        }, 1000);
+    }
+
+    function updateMessage() {
+        //create url to request fragment
+        let url = "/sendUpdate";
+        //load fragment and replace content
+        $('#test_result').load(url);
+    }
+
+</script>
+
+
+</body>
+</html>
+
+
