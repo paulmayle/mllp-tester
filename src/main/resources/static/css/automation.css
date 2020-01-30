@@ -32,6 +32,40 @@ h5 {
     margin-left: 5px;
 }
 
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+
+    border: 2px;
+    line-height: 1.2;
+    padding: 0 5px;
+    font-size: medium;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: rgb(62, 198, 20);
+    background-image: linear-gradient(to top left,
+    rgba(0, 0, 0, .2),
+    rgba(0, 0, 0, .2) 30%,
+    rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+    inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #f6ffea;
+}
+
 /* Menu bar */
 
 .topnav {
@@ -285,6 +319,22 @@ td.group { font-family: Arial; font-size: 12px; font-style: normal; font-variant
 }
 
 
+.message {
+    color: #a22f72;
+    margin: 0;
+    font-size: small;
+    font-weight: normal;
+    font-family: Consolas, "Courier New", Courier;
+}
+
+
+.response {
+    color: #03a265;
+    margin: 0;
+    font-size: small;
+    font-weight: normal;
+    font-family: Consolas, "Courier New", Courier;
+}
 
 
 .queuehost {

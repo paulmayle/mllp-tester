@@ -8,7 +8,11 @@
 </head>
 <body>
 
-<h1>HL7 Message tester</h1>
+<h1>HL7 Message tester </h1>
+
+<h3 th:inline="text">
+    Host: [[${hostName}]]   ( [[${hostAddress}]]  )
+</h3>
 
 
 <table>
@@ -25,14 +29,12 @@
 
 </table>
 
+
 <!-- ----------------------- JAVASCRIPT----------------------- -->
 
 
 
 <script>
-
-
-
 
     function listen() {
 
@@ -45,7 +47,7 @@
 
         let btn = document.createElement("button");
         btn.type = "submit";
-        btn.value = "listen";
+        btn.value = "init";
         btn.name = "submit";
         document.getElementById("controlForm").appendChild(btn);
 
@@ -63,7 +65,7 @@
 
         let btn = document.createElement("button");
         btn.type = "submit";
-        btn.value = "send";
+        btn.value = "init";
         btn.name = "submit";
         document.getElementById("controlForm").appendChild(btn);
 

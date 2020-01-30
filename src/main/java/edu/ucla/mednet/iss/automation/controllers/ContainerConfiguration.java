@@ -1,4 +1,4 @@
-package edu.ucla.mednet.iss.automation;
+package edu.ucla.mednet.iss.automation.controllers;
 
 import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;

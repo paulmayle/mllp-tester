@@ -15,9 +15,9 @@ public class ApplicationContext {
   @Scope(
       value = WebApplicationContext.SCOPE_SESSION,
       proxyMode = ScopedProxyMode.TARGET_CLASS)
-  public SendConnection sendConnection() {
+  public ISendConnection sendConnection() {
     log.info("Getting a new sendConnection:  SendConnectionImpl()");
-    return new SendConnectionImpl();
+    return new SendConnection();
   }
 
 
@@ -25,9 +25,20 @@ public class ApplicationContext {
   @Scope(
       value = WebApplicationContext.SCOPE_SESSION,
       proxyMode = ScopedProxyMode.TARGET_CLASS)
-  public ReceiveConnection receiveConnection() {
+  public IReceiveConnection receiveConnection() {
     log.info("Getting a new receiveConnection:  ReceiveConnectionImpl()");
-    return new ReceiveConnectionImpl();
+    return new ReceiveConnection();
   }
+
+
+  @Bean
+//  @Scope(
+//      value = WebApplicationContext.SCOPE_SESSION,
+//      proxyMode = ScopedProxyMode.TARGET_CLASS)
+  public IActiveSessionList activeSessionList() {
+    log.info("Getting a new activeSessionList:  ActiveSessionList()");
+    return new ActiveSessionList();
+  }
+
 
 }

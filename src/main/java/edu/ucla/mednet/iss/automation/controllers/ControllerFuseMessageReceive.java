@@ -1,11 +1,13 @@
 package edu.ucla.mednet.iss.automation.controllers;
 
-import edu.ucla.mednet.iss.automation.ReceiveConnection;
+import edu.ucla.mednet.iss.automation.IReceiveConnection;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ControllerFuseMessageReceive {
 
   private static Logger log = Logger.getLogger(ControllerFuseMessageReceive.class.getName());
+  private IReceiveConnection ReceiveConnection;
 
   @Autowired
-  private ReceiveConnection receiveConnection;
-  //private ApplicationContext appContext;
-
-
+  public void setReceiveConnection(IReceiveConnection receiveConnection) {
+    ReceiveConnection = receiveConnection;
+  }
 
   @RequestMapping(value = "/listen", produces = {MediaType.TEXT_HTML_VALUE})
   public String start(
@@ -32,22 +34,35 @@ public class ControllerFuseMessageReceive {
       @RequestParam(name = "submit", required = false, defaultValue = "none") ArrayList action,
       Model model) throws Exception {
 
-    receiveConnection.processAction(action,listenPort, session.getId());
+    ReceiveConnection.processAction(action,listenPort, session.getId());
+
+    String hostAddress="not set";
+    String hostName="not set";
+    try {
+      hostAddress = InetAddress.getLocalHost().getHostAddress();
+      hostName = InetAddress.getLocalHost().getHostName();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
+
     model.addAttribute("listenPort", listenPort);
+    model.addAttribute("hostAddress", hostAddress);
+    model.addAttribute("hostName", hostName);
     return "mllp-receive-display";
   }
 
 
+  /**
+   * This is called frequently by the browser (500mS) to get the latest message received
+   * @param model
+   * @return
+   */
+
   @RequestMapping("/lastMessage")
   public String getlastMessage(Model model) {
-    model.addAttribute("message", receiveConnection.getMessage());
-    model.addAttribute("portMessage", receiveConnection.getPortMessage());
+    model.addAttribute("message", ReceiveConnection.getMessage());
+    model.addAttribute("portMessage", ReceiveConnection.getPortMessage());
 
     return "fragments :: lastMessage";
   }
-
-//  public void setAppContext(ApplicationContext appContext) {
-//    this.appContext = appContext;
-//  }
-
 }

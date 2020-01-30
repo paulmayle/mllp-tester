@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-//@RequestMapping({"${server.error.path:${error.path:/error}}"})
 @RequestMapping("/error")
 
 public class MyErrorController extends BasicErrorController {

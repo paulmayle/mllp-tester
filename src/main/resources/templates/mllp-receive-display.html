@@ -16,10 +16,16 @@
 
 <h1> mllp receiver </h1>
 
+<h3 th:inline="text">
+    Host: [[${hostName}]]   ( [[${hostAddress}]]  )
+</h3>
+
+
+
 <input id="listenPort" name="listenPort" th:value="${listenPort}" type="text">
 <button class="startButton" id="Submit" name="startButton" onclick="buildForm(this)" type="button"> Set Listen Port</button>
 <button class="stopButton" id="stop" name="stopButton" onclick="buildFormStop(this)" type="button"> Stop Listening</button>
-
+<a href="home"> <img alt="home" src="/home-30.png"> </a>
 <div id="replace_div">
 
 </div>
